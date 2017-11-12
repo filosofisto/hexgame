@@ -6,7 +6,10 @@
 #define HEXGAME_HEXAGON_H
 
 #include <array>
+#include <vector>
 #include "Line.h"
+#include "Point.h"
+#include "commun.h"
 
 using namespace std;
 
@@ -27,7 +30,9 @@ public:
 
     Line *get_l6() const;
 
-    void render(SDL_Renderer *renderer) const;
+    void render(SDL_Renderer *renderer, const Position& position) const;
+
+    vector<Point> polygon() const;
 private:
     Line *l1, *l2, *l3, *l4, *l5, *l6;
 };

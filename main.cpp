@@ -6,25 +6,17 @@
 using namespace std;
 
 int main(int argc, char **argv) {
-    /*HexBoard *hexBoard = new HexBoard();
-    hexBoard->show_board();
+    TheGame::Instance()->init("Hex Game", 660, 480);
 
+    while (TheGame::Instance()->is_running()) {
+        TheGame::Instance()->handle_events();
+        TheGame::Instance()->update();
+        TheGame::Instance()->render();
 
-    delete hexBoard;*/
-
-    Game *game = new Game();
-
-    game->init("Hex Game", 660, 480);
-
-    while (game->is_running()) {
-        game->handle_events();
-        game->update();
-        game->render();
+        SDL_Delay(10);
     }
 
-    game->clean();
-
-    delete game;
+    TheGame::Instance()->clean();
 
     return EXIT_SUCCESS;
 }

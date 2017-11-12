@@ -3,7 +3,7 @@ project(hexgame)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp Graph.cpp Graph.h HexBoard.cpp HexBoard.h DisjointSet.cpp DisjointSet.h Hexagon.cpp Hexagon.h Point.cpp Point.h Line.cpp Line.h HexGraph.cpp HexGraph.h Game.cpp Game.h)
+set(SOURCE_FILES main.cpp Graph.cpp Graph.h HexBoard.cpp HexBoard.h DisjointSet.cpp DisjointSet.h Hexagon.cpp Hexagon.h Point.cpp Point.h Line.cpp Line.h HexGraph.cpp HexGraph.h Game.cpp Game.h InputHandler.cpp InputHandler.h Geometry.cpp Geometry.h commun.h)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")

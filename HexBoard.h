@@ -10,6 +10,7 @@
 
 #include "Line.h"
 #include "Hexagon.h"
+#include "commun.h"
 
 using namespace std;
 
@@ -18,8 +19,9 @@ public:
     HexBoard();
     ~HexBoard();
 
-    void render_hexagons(SDL_Renderer *pRenderer) const;
+    void render_hexagons(SDL_Renderer *pRenderer, const Position positions[]) const;
 
+    int find_by_point(Point& point);
 private:
     vector<Hexagon*> hexagons;
 

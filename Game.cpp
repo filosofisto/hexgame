@@ -3,6 +3,16 @@
 //
 
 #include "Game.h"
+#include "InputHandler.h"
+
+Game *Game::_instance = nullptr;
+
+Game *Game::Instance() {
+    if (_instance == nullptr)
+        _instance = new Game();
+
+    return _instance;
+}
 
 Game::Game() {
 
@@ -32,6 +42,11 @@ bool Game::init(string title, int width, int height) {
 
     board = new HexBoard();
     running = true;
+    turn = Player::PLAYER_1;
+
+    for (int i = 0; i < 121; i++)
+        positions[i] = Position::FREE;
+
     return true;
 }
 
@@ -43,39 +58,39 @@ void Game::render() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-    board->render_hexagons(renderer);
+    board->render_hexagons(renderer, positions);
 
     SDL_RenderPresent(renderer);
 }
 
 void Game::update() {
+    if (TheInputHandler::Instance()->get_mouse_button_states(LEFT)) {
+        Point *mouse_position = TheInputHandler::Instance()->get_mouse_position();
+        mouse_position->log();
 
-}
+        int hex_id = board->find_by_point(*mouse_position);
 
-void Game::handle_events() {
-    SDL_Event event;
-
-    if (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                running = false;
-                break;
-            default:
-                break;
+        if (hex_id > -1) {
+            positions[hex_id] = turn == Player::PLAYER_1 ? Position::PLAYER_1 : Position::PLAYER_2;
+            turn = turn == Player::PLAYER_1 ? Player::PLAYER_2 : Player::PLAYER_1;
         }
     }
 }
 
+void Game::handle_events() {
+    TheInputHandler::Instance()->update();
+}
+
 void Game::clean() {
-    if (window != 0)
-        SDL_DestroyWindow(window);
+    TheInputHandler::Instance()->clean();
 
-    if (renderer != 0)
-        SDL_DestroyRenderer(renderer);
-
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
     SDL_Quit();
 
-    if (board != nullptr)
-        delete board;
+    delete board;
+}
+
+void Game::quit() {
+    running = false;
 }

@@ -4,6 +4,8 @@
 // zypper in SDL2-devel
 
 #include "HexBoard.h"
+#include "Geometry.h"
+#include "Game.h"
 
 HexBoard::HexBoard()
 {
@@ -109,10 +111,27 @@ void HexBoard::build_hexagons()
     }
 }
 
-void HexBoard::render_hexagons(SDL_Renderer *pRenderer) const
+void HexBoard::render_hexagons(SDL_Renderer *pRenderer, const Position positions[]) const
 {
+    int pos = 0;
+
     for (auto& hexagon: hexagons)
-        hexagon->render(pRenderer);
+        hexagon->render(pRenderer, positions[pos++]);
+}
+
+int HexBoard::find_by_point(Point& point) {
+    int i = -1;
+    int founded_pos = -1;
+
+    for (auto& hexagon: hexagons) {
+        i++;
+        if (Geometry::Instance()->is_inside(hexagon->polygon(), 6, point)) {
+            founded_pos = i;
+            break;
+        }
+    }
+
+    return founded_pos;
 }
 
 

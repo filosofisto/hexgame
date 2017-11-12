@@ -31,8 +31,15 @@ Hexagon::~Hexagon()
         delete l6;
 }
 
-void Hexagon::render(SDL_Renderer *renderer) const
+void Hexagon::render(SDL_Renderer *renderer, const Position& position) const
 {
+    if (position == Position::FREE)
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    if (position == Position::PLAYER_1)
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+    if (position == Position::PLAYER_2)
+        SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
+
     if (l1 != nullptr)
         l1->render(renderer);
     if (l2 != nullptr)
@@ -75,4 +82,17 @@ Line *Hexagon::get_l5() const
 Line *Hexagon::get_l6() const
 {
     return l6;
+}
+
+vector<Point> Hexagon::polygon() const {
+    vector<Point> pol;
+
+    pol.push_back(*l1->get_p1());
+    pol.push_back(*l1->get_p2());
+    pol.push_back(*l2->get_p2());
+    pol.push_back(*l3->get_p2());
+    pol.push_back(*l4->get_p2());
+    pol.push_back(*l5->get_p2());
+
+    return pol;
 }
